@@ -1,0 +1,62 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2856360383739716155",
+      "lastPropertyId": "7:7178172810839329549",
+      "name": "ShipmentItem",
+      "properties": [
+        {
+          "id": "1:510791957211809242",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3611335655317486948",
+          "name": "caption",
+          "type": 9
+        },
+        {
+          "id": "3:2413317333420811468",
+          "name": "trackingId",
+          "type": 9
+        },
+        {
+          "id": "4:8590420377106920146",
+          "name": "serviceName",
+          "type": 9
+        },
+        {
+          "id": "5:8517309743371816679",
+          "name": "status",
+          "type": 9
+        },
+        {
+          "id": "6:422976679122968422",
+          "name": "lastUpdateTime",
+          "type": 6
+        },
+        {
+          "id": "7:7178172810839329549",
+          "name": "visible",
+          "type": 1
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:2856360383739716155",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
