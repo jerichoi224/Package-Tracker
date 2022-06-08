@@ -49,19 +49,15 @@ class dataStore {
     prefMap[key] = value;
   }
 
-  bool replaceShipment(int id, ShipmentItem item){
+  bool updateShipment(ShipmentItem item) {
+    shipmentBox.put(item);
     shipmentList = shipmentBox.getAll();
-    print("Putting to Box");
-    print(item);
-    print(shipmentBox.getAll());
-    shipmentBox.put(item, mode: PutMode.update);
-    print(shipmentBox.getAll());
     return true;
   }
 
   bool removeShipment(int id){
     shipmentBox.remove(id);
-    shipmentList.removeWhere((element) => element.id == id);
+    shipmentList = shipmentBox.getAll();
     return true;
   }
 

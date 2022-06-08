@@ -21,7 +21,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 2856360383739716155),
       name: 'ShipmentItem',
-      lastPropertyId: const IdUid(7, 7178172810839329549),
+      lastPropertyId: const IdUid(8, 2888681444504392752),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -58,6 +58,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(7, 7178172810839329549),
             name: 'visible',
             type: 1,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 2888681444504392752),
+            name: 'packageJson',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -110,7 +115,8 @@ ModelDefinition getObjectBoxModel() {
           final trackingIdOffset = fbb.writeString(object.trackingId);
           final serviceNameOffset = fbb.writeString(object.serviceName);
           final statusOffset = fbb.writeString(object.status);
-          fbb.startTable(8);
+          final packageJsonOffset = fbb.writeString(object.packageJson);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, captionOffset);
           fbb.addOffset(2, trackingIdOffset);
@@ -118,6 +124,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(4, statusOffset);
           fbb.addInt64(5, object.lastUpdateTime);
           fbb.addBool(6, object.visible);
+          fbb.addOffset(7, packageJsonOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -138,7 +145,9 @@ ModelDefinition getObjectBoxModel() {
             ..lastUpdateTime =
                 const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0)
             ..visible =
-                const fb.BoolReader().vTableGet(buffer, rootOffset, 16, false);
+                const fb.BoolReader().vTableGet(buffer, rootOffset, 16, false)
+            ..packageJson = const fb.StringReader(asciiOptimization: true)
+                .vTableGet(buffer, rootOffset, 18, '');
 
           return object;
         })
@@ -176,4 +185,8 @@ class ShipmentItem_ {
   /// see [ShipmentItem.visible]
   static final visible =
       QueryBooleanProperty<ShipmentItem>(_entities[0].properties[6]);
+
+  /// see [ShipmentItem.packageJson]
+  static final packageJson =
+      QueryStringProperty<ShipmentItem>(_entities[0].properties[7]);
 }

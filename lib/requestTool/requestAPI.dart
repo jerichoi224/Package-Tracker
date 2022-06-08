@@ -7,7 +7,7 @@ import 'package:package_tracker/dbTool.dart';
 
 import 'ServiceEnum.dart';
 
-Future<Map<String, dynamic>> requestShippingInfo(ServiceEnum service, String trackingId) async{
+Future<String> requestShippingInfo(ServiceEnum service, String trackingId) async{
   String endpoint = 'https://apis.tracker.delivery/carriers/${service.carrierId}/tracks/$trackingId';
 
   print(endpoint);
@@ -15,7 +15,7 @@ Future<Map<String, dynamic>> requestShippingInfo(ServiceEnum service, String tra
       Uri.parse(endpoint)
   );
   if (response.statusCode == 200) {
-    return jsonDecode(utf8.decode(response.bodyBytes));
+    return utf8.decode(response.bodyBytes);
   } else {
     throw Exception(
       'Failed to get response: ${response.statusCode}'
@@ -28,17 +28,15 @@ Future<bool> updateShipment(dataStore db, int id) async
   ShipmentItem item = db.shipmentList.firstWhere((element) => element.id == id);
 
   try{
-    Map<String, dynamic> updateInfo = await requestShippingInfo(
+    String updateInfo = await requestShippingInfo(
         ServiceEnum.values.firstWhere((element) => element.displayName == item.serviceName),
         item.trackingId);
-
     item.packageJson = updateInfo;
     item.parseJson();
-    db.shipmentBox.put(item);
-    print("post put");
-    print(db.shipmentBox.getAll());
-    db.replaceShipment(id, item);
+    db.updateShipment(item);
   }on Exception catch(e){
+    item.status = "Failed to get Info";
+    db.updateShipment(item);
     debugPrint(e.toString());
     return false;
   }

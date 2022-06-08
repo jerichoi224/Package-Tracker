@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_tracker/class/shipment_model.dart';
 import 'package:package_tracker/dbTool.dart';
+import 'package:package_tracker/requestTool/requestAPI.dart';
 import 'package:package_tracker/util/stringTools.dart';
 import 'package:package_tracker/widgets/AddPackageDialog.dart';
 import 'package:package_tracker/widgets/SettingsWidget.dart';
@@ -49,8 +50,17 @@ class _HomeState extends State<HomeWidget>{
 
   void addPackage(BuildContext context) async {
     final result = await showAddPackageDialog(context, widget.db);
-    if(result.runtimeType == bool && result) {
+    if(result.runtimeType == int) {
       updateList();
+
+      ShipmentItem? item = widget.db.shipmentBox.get(result);
+      if(item != null)
+        {
+          updateShipment(widget.db, item.id).then((value){
+              widget.db.updateShipment(item);
+              updateList();
+          });
+        }
     }
   }
 
@@ -64,7 +74,6 @@ class _HomeState extends State<HomeWidget>{
     if(result.runtimeType == bool && result) {
       updateList();
     }
-    print(shipmentList);
   }
 
 
@@ -97,8 +106,7 @@ class _HomeState extends State<HomeWidget>{
        key: UniqueKey(),
        onDismissed: (DismissDirection direction) {
           item.visible = false;
-          widget.db.replaceShipment(item.id, item);
-          widget.db.shipmentBox.put(item);
+          widget.db.updateShipment(item);
           updateList();
        },
        child: Container(

@@ -3,6 +3,7 @@ import 'package:package_tracker/class/shipment_model.dart';
 import 'package:package_tracker/dbTool.dart';
 import 'package:package_tracker/requestTool/ServiceEnum.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:package_tracker/requestTool/requestAPI.dart';
 import 'package:package_tracker/util/koreanSearch.dart';
 
 Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
@@ -148,7 +149,7 @@ Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
                               item.lastUpdateTime = DateTime.now().millisecondsSinceEpoch;
                               db.shipmentBox.put(item);
                               db.shipmentList.add(item);
-                              Navigator.of(context).pop(true);
+                              Navigator.of(context).pop(item.id);
                             },
                             child: Container(
                               margin: const EdgeInsets.all(10),

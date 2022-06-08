@@ -1,4 +1,12 @@
+import 'dart:convert';
+
 import 'package:objectbox/objectbox.dart';
+
+/*
+* dart clean
+* flutter pub get
+* flutter pub run build_runner build --delete-conflicting-outputs
+* */
 
 @Entity()
 class ShipmentItem {
@@ -9,8 +17,7 @@ class ShipmentItem {
   bool visible = true;
   String status = "retrieving info";
   int lastUpdateTime = 0;
-  Map<String, dynamic> packageJson = {};
-  List<dynamic> progress = [];
+  String packageJson = "";
 
   ShipmentItem(
       {
@@ -20,21 +27,28 @@ class ShipmentItem {
       }
   );
 
+  Map<String, dynamic> getJsonMap()
+  {
+    if(packageJson.isNotEmpty)
+      {
+        return jsonDecode(packageJson);
+      }
+    return {};
+    // 5637 1140 5633
+  }
+
   void parseJson()
   {
-    if(packageJson.containsKey("state")) {
-      status = packageJson["state"]["text"];
+    Map<String, dynamic> json = getJsonMap();
+
+    if(json.containsKey("state")) {
+      status = json["state"]["text"];
     }
 
-    if(packageJson.containsKey("progresses"))
-      {
-        progress = packageJson["progresses"];
-      }
-    // TODO: work on shipping history 5637 1140 5633
   }
 
   @override
   String toString(){
-    return "{id: $id, visible: $visible, progress: $progress";
+    return "{id: $id, visible: $visible, json: $packageJson}";
   }
 }
