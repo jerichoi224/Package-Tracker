@@ -12,10 +12,13 @@ So far, the app has the basic functions implemented, just doesn't have a reliabl
 I was able to use the [dropdown_search package](https://pub.dev/packages/dropdown_search) which was really nice. Feel free to take a look at how to use it.
 
 ### Screenshots
-<img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_1.png">
-<img src="https://github.com/jerichoi224/Package-Tracker/blob/master/media/screen_2.png">
-<img src="https://github.com/jerichoi224/Package-Tracker/blob/master/media/screen_3.png">
-<img src="https://github.com/jerichoi224/Package-Tracker/blob/master/media/screen_4.png">
-<img src="https://github.com/jerichoi224/Package-Tracker/blob/master/media/screen_5.png">
-<img src="https://github.com/jerichoi224/Package-Tracker/blob/master/media/screen_6.png">
-
+<p float="left">
+  <img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_1.png" width="200">
+  <img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_2.png" width="200">
+  <img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_6.png" width="200">
+</p>
+<p float="left">
+  <img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_5.png" width="200">
+  <img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_3.png" width="200">
+  <img src="https://raw.githubusercontent.com/jerichoi224/Package-Tracker/main/media/screen_4.png" width="200">
+</p>
