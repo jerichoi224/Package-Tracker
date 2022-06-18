@@ -27,7 +27,7 @@ class dataStore {
     shipmentList = shipmentBox.getAll();
 
     for(String key in prefs.getKeys()) {
-      setPref(key, prefs.get(key));
+      prefMap[key] = prefs.get(key);
     }
   }
 
@@ -45,7 +45,9 @@ class dataStore {
     else if(value.runtimeType == int) {
       prefs.setInt(key, value);
     }
-
+    else if(value.runtimeType == List<String>){
+      prefs.setStringList(key, value);
+    }
     prefMap[key] = value;
   }
 

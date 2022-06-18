@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2856360383739716155",
-      "lastPropertyId": "8:2888681444504392752",
+      "lastPropertyId": "10:498263106435221288",
       "name": "ShipmentItem",
       "properties": [
         {
@@ -47,6 +47,16 @@
         {
           "id": "8:2888681444504392752",
           "name": "packageJson",
+          "type": 9
+        },
+        {
+          "id": "9:5747432701128514617",
+          "name": "delivered",
+          "type": 1
+        },
+        {
+          "id": "10:498263106435221288",
+          "name": "statusText",
           "type": 9
         }
       ],

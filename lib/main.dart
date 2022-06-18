@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_tracker/requestTool/ServiceEnum.dart';
 import 'package:package_tracker/widgets/HomeWidget.dart';
 import 'dart:async';
 
@@ -67,12 +68,15 @@ class MainState extends State<MainApp> {
 
   Future checkFirstSeen() async {
 
-    bool firstTime = true; //(db.getPref('show_instruction')) ?? true;
+    bool firstTime = (db.getPref('show_instruction')) ?? true;
 
-    if (firstTime) {
+    if (!firstTime) {
       Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     } else {
-      Navigator.of(context).pushNamedAndRemoveUntil('/splash', (Route<dynamic> route) => false);
+      db.setPref("displayCarrier", ServiceEnum.values.map((e) => e.displayName).toList());
+      db.setPref("show_instruction", false);
+      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+//      Navigator.of(context).pushNamedAndRemoveUntil('/splash', (Route<dynamic> route) => false);
     }
   }
 

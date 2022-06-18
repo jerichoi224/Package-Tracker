@@ -21,7 +21,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 2856360383739716155),
       name: 'ShipmentItem',
-      lastPropertyId: const IdUid(8, 2888681444504392752),
+      lastPropertyId: const IdUid(10, 498263106435221288),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -62,6 +62,16 @@ final _entities = <ModelEntity>[
         ModelProperty(
             id: const IdUid(8, 2888681444504392752),
             name: 'packageJson',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 5747432701128514617),
+            name: 'delivered',
+            type: 1,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 498263106435221288),
+            name: 'statusText',
             type: 9,
             flags: 0)
       ],
@@ -116,7 +126,8 @@ ModelDefinition getObjectBoxModel() {
           final serviceNameOffset = fbb.writeString(object.serviceName);
           final statusOffset = fbb.writeString(object.status);
           final packageJsonOffset = fbb.writeString(object.packageJson);
-          fbb.startTable(9);
+          final statusTextOffset = fbb.writeString(object.statusText);
+          fbb.startTable(11);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, captionOffset);
           fbb.addOffset(2, trackingIdOffset);
@@ -125,6 +136,8 @@ ModelDefinition getObjectBoxModel() {
           fbb.addInt64(5, object.lastUpdateTime);
           fbb.addBool(6, object.visible);
           fbb.addOffset(7, packageJsonOffset);
+          fbb.addBool(8, object.delivered);
+          fbb.addOffset(9, statusTextOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -147,7 +160,11 @@ ModelDefinition getObjectBoxModel() {
             ..visible =
                 const fb.BoolReader().vTableGet(buffer, rootOffset, 16, false)
             ..packageJson = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 18, '');
+                .vTableGet(buffer, rootOffset, 18, '')
+            ..delivered =
+                const fb.BoolReader().vTableGet(buffer, rootOffset, 20, false)
+            ..statusText = const fb.StringReader(asciiOptimization: true)
+                .vTableGet(buffer, rootOffset, 22, '');
 
           return object;
         })
@@ -189,4 +206,12 @@ class ShipmentItem_ {
   /// see [ShipmentItem.packageJson]
   static final packageJson =
       QueryStringProperty<ShipmentItem>(_entities[0].properties[7]);
+
+  /// see [ShipmentItem.delivered]
+  static final delivered =
+      QueryBooleanProperty<ShipmentItem>(_entities[0].properties[8]);
+
+  /// see [ShipmentItem.statusText]
+  static final statusText =
+      QueryStringProperty<ShipmentItem>(_entities[0].properties[9]);
 }

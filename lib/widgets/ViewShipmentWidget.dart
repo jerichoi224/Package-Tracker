@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_tracker/class/shipment_model.dart';
 import 'package:package_tracker/dbTool.dart';
+import 'package:package_tracker/requestTool/ShippingStatusEnum.dart';
 import 'package:package_tracker/requestTool/requestAPI.dart';
 import 'package:package_tracker/util/customWidgets.dart';
 import 'package:package_tracker/util/stringTools.dart';
@@ -75,98 +76,92 @@ class _ViewShipmentState extends State<ViewShipmentWidget>{
               centerTitle: true,
               title: Text(item.caption),
             ),
-            body:
-            Column(
-              children: <Widget>[
-                Expanded(
-                    child: SingleChildScrollView(
+            body: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                        margin: EdgeInsets.all(8.0),
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Card(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                                margin: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                        title: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Row(
-                                              children: [
-                                                PaddedText(item.serviceName,
-                                                  style: bold(16)
-                                                ),
-                                                const Spacer(),
-                                                PaddedText(item.status,
-                                                    style: normal(16)
-                                                ),
-                                              ],
-                                            ),
-                                            PaddedText(item.trackingId),
-                                          ],
-                                        )
+                          children: [
+                            ListTile(
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        PaddedText(item.serviceName,
+                                          style: bold(16)
+                                        ),
+                                        const Spacer(),
+                                        PaddedText(item.statusText,
+                                            style: normal(16)
+                                        ),
+                                      ],
                                     ),
+                                    PaddedText(item.trackingId),
                                   ],
                                 )
-                              ),
-                              if(history.isNotEmpty)
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                  PaddedText("History",
-                                      padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                                      style: TextStyle(
-                                          color: Colors.indigo,
-                                          fontWeight: FontWeight.bold
-                                      )
-                                  ),
-                                  Spacer(),
-                                  PaddedText(updateDateFormat(item.lastUpdateTime),
-                                    style: TextStyle(
-                                      fontSize: 14
-                                    ),
-                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-
-                                  ),
-                                ],
-                                ),
-                              Card(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                                margin: EdgeInsets.all(8.0),
-                                child:
-                                  ListView.builder(
-                                  itemCount: history.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return _buildHistory(index);
-                                  },
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                ),
-                              ),
-                              Center(
-                                  child: TextButton(
-                                      onPressed: () async {
-                                        await updateShipment(widget.db, item.id);
-                                        if(mounted)
-                                          {
-                                            updateItem();
-                                          }
-                                      },
-                                      child: PaddedText("Update Shipment",
-                                        padding: const EdgeInsets.all(8),
-                                        style: const TextStyle(
-                                          color: Colors.indigo
-                                        ),
-                                      )
-                                  )
-                              )
-                            ]
+                            ),
+                          ],
                         )
-                    )
+                      ),
+                      if(history.isNotEmpty)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                          PaddedText("History",
+                              padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                              style: TextStyle(
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold
+                              )
+                          ),
+                          Spacer(),
+                          PaddedText(updateDateFormat(item.lastUpdateTime),
+                            style: TextStyle(
+                              fontSize: 14
+                            ),
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+
+                          ),
+                        ],
+                        ),
+                      Card(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                        margin: EdgeInsets.all(8.0),
+                        child:
+                          ListView.builder(
+                          itemCount: history.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _buildHistory(index);
+                          },
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                        ),
+                      ),
+                      if(item.status != ShippingStatusEnum.delivered.caption)
+                        Center(
+                            child: TextButton(
+                                onPressed: () async {
+                                  await updateShipment(widget.db, item.id);
+                                  if(mounted)
+                                    {
+                                      updateItem();
+                                    }
+                                },
+                                child: PaddedText("Update Shipment",
+                                  padding: const EdgeInsets.all(8),
+                                  style: const TextStyle(
+                                    color: Colors.indigo
+                                  ),
+                                )
+                            )
+                        )
+                    ]
                 )
-              ],
             )
         )
     );

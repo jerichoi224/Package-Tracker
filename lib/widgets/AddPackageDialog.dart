@@ -15,6 +15,9 @@ Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
   bool validateCaption = false;
   bool validateCarrier = false;
 
+  print(db.getPref("displayCarrier"));
+  List<String> carriers = db.getPref("displayCarrier") as List<String>;
+  print(carriers);
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -97,7 +100,7 @@ Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
                         ),
                       ),
                       DropdownSearch<String>(
-                        asyncItems: (filter) => getData(filter),
+                        asyncItems: (filter) => getData(carriers,filter),
                         compareFn: (i, s) => i == s,
                         onChanged: (String? data){
                           setState((){
@@ -119,8 +122,9 @@ Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
                           favoriteItemProps: FavoriteItemProps(
                             showFavoriteItems: true,
                             favoriteItems: (us) {
+                              List<String> favorites = db.getPref("favorites") ?? [];
                               return us
-                                  .where((e) => e.contains("D"))
+                                  .where((e) => favorites.contains(e))
                                   .toList();
                             },
                           ),
@@ -152,8 +156,7 @@ Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
                               Navigator.of(context).pop(item.id);
                             },
                             child: Container(
-                              margin: const EdgeInsets.all(10),
-                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.all(20),
                               child: Text(
                                 "Add Package",
                                 style: TextStyle(
@@ -176,9 +179,8 @@ Future<dynamic> showAddPackageDialog(BuildContext context, dataStore db) async{
 }
 
 
-Future<List<String>> getData(filter) async {
-  return Future.value(ServiceEnum.values
-      .map((e) => e.displayName)
+Future<List<String>> getData(list, filter) async {
+  return Future.value(list
       .where((element) => filter.toString().isEmpty || containsKr(element, filter))
       .toList());
 }

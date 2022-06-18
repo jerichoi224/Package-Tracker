@@ -35,11 +35,24 @@ class _HomeState extends State<HomeWidget>{
     });
   }
 
+  void updateAllShipments(){
+    for(ShipmentItem item in shipmentList)
+      {
+        if(item.visible && !item.delivered)
+          {
+            updateShipment(widget.db, item.id).then((value){
+              widget.db.updateShipment(item);
+              updateList();
+            });
+          }
+      }
+  }
+
   void openSettings(BuildContext context) async {
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SettingsWidget(),
+          builder: (context) => SettingsWidget(db: widget.db,),
         ));
 
     if(result.runtimeType == bool && result)
@@ -86,7 +99,14 @@ class _HomeState extends State<HomeWidget>{
             padding: const EdgeInsets.all(15),
             child: Row(
               children: [
-                Icon(Icons.delete, color: Colors.black),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.delete, color: Colors.black),
+                )
               ],
             ),
           ),
@@ -98,7 +118,14 @@ class _HomeState extends State<HomeWidget>{
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(Icons.delete, color: Colors.black),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.all(Radius.circular(10))
+                  ),
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.delete, color: Colors.black),
+                )
               ],
             ),
           ),
@@ -111,7 +138,7 @@ class _HomeState extends State<HomeWidget>{
        },
        child: Container(
           color: Colors.transparent,
-          height: 110,
+          height: 90,
           child: Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)
@@ -130,7 +157,7 @@ class _HomeState extends State<HomeWidget>{
                               width: 100,
                               child: Icon(
                                 Icons.inbox,
-                                size: 80,
+                                size: 60,
                               )
                           ),
                           RichText(
@@ -140,20 +167,20 @@ class _HomeState extends State<HomeWidget>{
                                   TextSpan(
                                     text: "${item.caption}\n",
                                     style: TextStyle(
-                                        fontSize: 22,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w500
                                     ),
                                   ),
                                   TextSpan(
-                                      text: "${item.status}\n",
+                                      text: "${item.statusText}\n",
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 12,
                                       )
                                   ),
                                   TextSpan(
                                       text: "Last Update: ${updateDateFormat(item.lastUpdateTime)}",
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                       )
                                   )
                                 ]

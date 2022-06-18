@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:objectbox/objectbox.dart';
+import 'package:package_tracker/requestTool/ShippingStatusEnum.dart';
 
 /*
 * dart clean
@@ -15,7 +16,9 @@ class ShipmentItem {
   String trackingId;
   String serviceName;
   bool visible = true;
-  String status = "retrieving info";
+  String status = ShippingStatusEnum.gettingInfo.caption;
+  String statusText = "";
+  bool delivered = false;
   int lastUpdateTime = 0;
   String packageJson = "";
 
@@ -42,9 +45,15 @@ class ShipmentItem {
     Map<String, dynamic> json = getJsonMap();
 
     if(json.containsKey("state")) {
-      status = json["state"]["text"];
-    }
+      statusText = json["state"]["text"];
 
+      if(json["state"]["id"] == "delivered")
+        {
+          status = ShippingStatusEnum.delivered.caption;
+          delivered = true;
+        }
+
+    }
   }
 
   @override
