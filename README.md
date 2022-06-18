@@ -1,4 +1,4 @@
-# Package-Tracker(WIP)
+# Package-Tracker(Abandoned)
 
 App for keeping track of packages. 
 
